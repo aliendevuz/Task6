@@ -7,52 +7,10 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center"
-        android:text="@string/status" />
-
-    <TextView
-        android:id="@+id/tv_data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="12dp"
-        android:text="@string/data" />
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/sc_cache"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="@string/is_cache" />
-
     <Button
         android:id="@+id/b_create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_file" />
-
-    <Button
-        android:id="@+id/b_write"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/write_data" />
-
-    <Button
-        android:id="@+id/b_read"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/read_data" />
-
-    <Button
-        android:id="@+id/b_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/delete_file" />
+        android:text="@string/ask_permissions" />
 
 </LinearLayout>
