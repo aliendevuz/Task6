@@ -9,27 +9,27 @@
 
     <TextView
         android:id="@+id/tv_status"
-        android:text="@string/status"
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:gravity="center"
+        android:text="@string/status" />
 
     <TextView
         android:id="@+id/tv_data"
-        android:text="@string/data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:layout_marginBottom="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:text="@string/data" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sc_cache"
-        android:text="@string/is_cache"
-        android:checked="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:text="@string/is_cache" />
 
     <Button
         android:id="@+id/b_create"

@@ -1,6 +1,11 @@
 package uz.alien.task
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Environment
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import uz.alien.task.databinding.ActivityMainBinding
 import java.io.BufferedReader
@@ -18,49 +23,54 @@ class MainActivity : AppCompatActivity() {
     val fileName = "data.txt"
     val cacheData = "Wrote to Caches!"
     val fileData = "Wrote to Files!"
+    var writeable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val cacheFile = File(cacheDir, fileName)
-        val fileFile = File(filesDir, fileName)
+        val cacheFile = File(externalCacheDir, fileName)
+        val fileFile = File("${Environment.getExternalStorageDirectory().absolutePath}/${Environment.DIRECTORY_DOCUMENTS}", fileName)
 
-        binding.scCache.setOnCheckedChangeListener { buttonView, isChecked ->
-            isCache = isChecked
-        }
+        writeable = checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+
+        binding.scCache.setOnCheckedChangeListener { _, isChecked -> isCache = isChecked }
 
         binding.bCreate.setOnClickListener {
-            createFile(if (isCache) cacheFile else fileFile)
+            if (isCache) createFile(cacheFile)
+            else if (writeable) createFile(fileFile) else askWritePermission()
         }
 
         binding.bWrite.setOnClickListener {
-            writeData(if (isCache) cacheFile else fileFile, if (isCache) cacheData else fileData)
+            if (isCache) writeData(cacheFile, cacheData)
+            else if (writeable) writeData(fileFile, fileData) else askWritePermission()
         }
 
         binding.bRead.setOnClickListener {
-            binding.tvData.text = readData(if (isCache) cacheFile else fileFile)
+            binding.tvData.text = (if (isCache) readData(cacheFile)
+            else if (writeable) readData(fileFile) else { askWritePermission(); ""})
         }
 
         binding.bDelete.setOnClickListener {
-            deleteFile(if (isCache) cacheFile else fileFile)
+            if (isCache) deleteFile(cacheFile)
+            else if (writeable) deleteFile(fileFile) else askWritePermission()
         }
-
-
-//        .setOnClickListener {
-//
-//            permissionLauncher.launch(arrayOf(
-//                Manifest.permission.CAMERA,
-//                Manifest.permission.ACCESS_FINE_LOCATION,
-//                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                Manifest.permission.READ_EXTERNAL_STORAGE,
-//                Manifest.permission.WRITE_EXTERNAL_STORAGE
-//            ))
-//        }
     }
 
-//    val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
+    fun askWritePermission() {
+        if (!writeable) {
+            if (App.getInt("write permission count") > 2)
+                Toast.makeText(this, "Read & Write permission is denied!", Toast.LENGTH_SHORT).show()
+            permissionLauncher.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        }
+    }
+
+    val permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+        it[Manifest.permission.WRITE_EXTERNAL_STORAGE]?.let { it1 -> writeable = it1
+            App.saveValue("write permission count", App.getInt("write permission count") + 1)
+        }
+    }
 
     fun setStatus(status: String) {
         binding.tvStatus.text = status
