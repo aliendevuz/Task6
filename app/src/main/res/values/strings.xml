@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Task</string>
+    <string name="button">Open pictures</string>
+    <string name="files">Files</string>
+    <string name="caches">Caches</string>
+    <string name="picture">Picture</string>
+</resources>
