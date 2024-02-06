@@ -4,4 +4,11 @@
     <string name="files">Files</string>
     <string name="caches">Caches</string>
     <string name="picture">Picture</string>
+    <string name="create_file">Create file</string>
+    <string name="write_data">Write data</string>
+    <string name="read_data">Read data</string>
+    <string name="delete_file">Delete file</string>
+    <string name="is_cache">Is Cache</string>
+    <string name="data">Data</string>
+    <string name="status">Status</string>
 </resources>
