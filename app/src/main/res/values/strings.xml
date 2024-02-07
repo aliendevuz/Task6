@@ -12,4 +12,6 @@
     <string name="data">Data</string>
     <string name="status">Status</string>
     <string name="ask_permissions">Ask permissions</string>
+    <string name="take_a_photo">Take a photo</string>
+    <string name="open_gallery">Open Gallery</string>
 </resources>

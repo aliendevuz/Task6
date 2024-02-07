@@ -20,7 +20,7 @@ class AdapterPicture(val pictures: ArrayList<Bitmap>) : RecyclerView.Adapter<Rec
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is PictureViewHolder) {
-            //
+            holder.binding.ivPicture.setImageBitmap(pictures[position])
         }
     }
 }

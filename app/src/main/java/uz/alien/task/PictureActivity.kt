@@ -1,6 +1,7 @@
 package uz.alien.task
 
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,6 +18,21 @@ class PictureActivity : AppCompatActivity() {
 
         binding.rvPictures.layoutManager = GridLayoutManager(this, 2)
         val pictures = ArrayList<Bitmap>()
+        pictures.addAll(getAllImages())
         binding.rvPictures.adapter = AdapterPicture(pictures)
+    }
+
+    private fun getAllImages(): ArrayList<Bitmap> {
+        val images = ArrayList<Bitmap>()
+        val files = filesDir.listFiles()
+        if (files != null) {
+            for (file in files) {
+                val bitmap = BitmapFactory.decodeFile(file.absolutePath)
+                if (bitmap != null) {
+                    images.add(bitmap)
+                }
+            }
+        }
+        return images
     }
 }

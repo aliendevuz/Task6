@@ -11,8 +11,8 @@ android {
         applicationId "uz.alien.task"
         minSdk 24
         targetSdk 34
-        versionCode 4
-        versionName "4.3 task"
+        versionCode 5
+        versionName "4.4 task"
     }
 
     buildTypes {
