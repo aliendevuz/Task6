@@ -10,9 +10,10 @@ android {
     defaultConfig {
         applicationId "uz.alien.task"
         minSdk 24
-        targetSdk 34
-        versionCode 5
-        versionName "4.4 task"
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk 28
+        versionCode 6
+        versionName "4.5 task"
     }
 
     buildTypes {

@@ -3,6 +3,7 @@ package uz.alien.task
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import uz.alien.task.databinding.ActivityPictureBinding
@@ -24,7 +25,7 @@ class PictureActivity : AppCompatActivity() {
 
     private fun getAllImages(): ArrayList<Bitmap> {
         val images = ArrayList<Bitmap>()
-        val files = filesDir.listFiles()
+        val files = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).listFiles()
         if (files != null) {
             for (file in files) {
                 val bitmap = BitmapFactory.decodeFile(file.absolutePath)
