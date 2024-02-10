@@ -12,8 +12,8 @@ android {
         minSdk 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk 28
-        versionCode 6
-        versionName "4.5 task"
+        versionCode 7
+        versionName "5.1 task"
     }
 
     buildTypes {
