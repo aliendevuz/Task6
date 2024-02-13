@@ -7,11 +7,31 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/e_x_100"
+        android:textStyle="bold"
+        android:textColor="#808080"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:hint="@string/enter_phone_number"
+        android:inputType="phone"
+        android:autofillHints="" />
+
     <Button
-        android:id="@+id/b_start"
+        android:id="@+id/b_call"
+        android:layout_marginTop="12dp"
         android:layout_marginBottom="108dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_playing" />
+        android:text="@string/make_a_call" />
 
 </LinearLayout>

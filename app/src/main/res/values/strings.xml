@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Task</string>
     <string name="button">Open pictures</string>
     <string name="files">Files</string>
@@ -16,4 +16,7 @@
     <string name="open_gallery">Open Gallery</string>
     <string name="start_playing">Start playing!</string>
     <string name="stop_playing">Stop playing!</string>
+    <string name="enter_phone_number" tools:ignore="TypographyEllipsis">Enter phone number...</string>
+    <string name="make_a_call">Make a call</string>
+    <string name="e_x_100">e.x. *100#</string>
 </resources>
