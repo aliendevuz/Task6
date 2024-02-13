@@ -19,4 +19,7 @@
     <string name="enter_phone_number" tools:ignore="TypographyEllipsis">Enter phone number...</string>
     <string name="make_a_call">Make a call</string>
     <string name="e_x_100">e.x. *100#</string>
+    <string name="sms_received">android.provider.Telephony.SMS_RECEIVED</string>
+    <string name="start_receiving">Start receiving</string>
+    <string name="stop_receiving">Stop receiving</string>
 </resources>

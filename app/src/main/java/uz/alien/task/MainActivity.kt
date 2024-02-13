@@ -2,12 +2,16 @@ package uz.alien.task
 
 import android.Manifest
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import uz.alien.task.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,37 +25,38 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         App.home = this
 
-        isPermitted = checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED
+        isPermitted = checkSelfPermission(Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permLauncher.launch(arrayOf(
+                Manifest.permission.POST_NOTIFICATIONS
+            ))
+        }
 
         askPermission()
 
-        binding.bCall.setOnClickListener {
-            if (isPermitted) {
-                val hash = Uri.encode("#")
-                val phoneNumber = binding.etPhone.text.toString().replace("#", hash)
-                try {
-                    val uri = Uri.parse("tel:$phoneNumber")
-                    val callIntent = Intent(Intent.ACTION_CALL, uri)
-                    startActivity(callIntent)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    Toast.makeText(this, "Please enter valid phone number", Toast.LENGTH_SHORT).show()
-                }
-            } else askPermission()
+        binding.bStartReceiving.setOnClickListener {
+            startService(Intent(this, ReceiverService::class.java))
+        }
+
+        binding.bStopReceiving.setOnClickListener {
+            stopService(Intent(this, ReceiverService::class.java))
         }
     }
 
     fun askPermission() {
         if (!isPermitted) {
-            if (App.getInt("write permission count") > 2)
-                Toast.makeText(this, "Read & Write permission is denied!", Toast.LENGTH_SHORT).show()
-            permLauncher.launch(arrayOf(Manifest.permission.CALL_PHONE))
+            if (App.getInt("receive sms permission count") > 2)
+                Toast.makeText(this, "Receive SMS permission is denied!", Toast.LENGTH_SHORT).show()
+            permLauncher.launch(arrayOf(
+                Manifest.permission.RECEIVE_SMS
+            ))
         }
     }
 
     val permLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        it[Manifest.permission.CALL_PHONE]?.let { it1 -> isPermitted = it1
-            App.saveValue("write permission count", App.getInt("write permission count") + 1)
+        it[Manifest.permission.RECEIVE_SMS]?.let { it1 -> isPermitted = it1
+            App.saveValue("receive sms permission count", App.getInt("receive sms permission count") + 1)
+            if (!isPermitted) askPermission()
         }
     }
 }
