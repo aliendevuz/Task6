@@ -2,17 +2,21 @@ package uz.alien.task
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.os.Handler
 
 class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
         preferences = getSharedPreferences("Settings", MODE_PRIVATE)
+        handler = Handler(mainLooper)
     }
 
     companion object {
 
         lateinit var preferences: SharedPreferences
+        lateinit var handler: Handler
+        lateinit var home: MainActivity
 
         fun saveValue(name: String, value: Any) {
             when (value) {
