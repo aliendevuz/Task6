@@ -17,7 +17,6 @@ import uz.alien.task.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
-    var isPermitted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +24,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         App.home = this
 
-        isPermitted = checkSelfPermission(Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED
+        permLauncher.launch(arrayOf(
+            Manifest.permission.RECEIVE_BOOT_COMPLETED
+        ))
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permLauncher.launch(arrayOf(
                 Manifest.permission.POST_NOTIFICATIONS
             ))
         }
-
-        askPermission()
 
         binding.bStartReceiving.setOnClickListener {
             startService(Intent(this, ReceiverService::class.java))
@@ -43,20 +43,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun askPermission() {
-        if (!isPermitted) {
-            if (App.getInt("receive sms permission count") > 2)
-                Toast.makeText(this, "Receive SMS permission is denied!", Toast.LENGTH_SHORT).show()
-            permLauncher.launch(arrayOf(
-                Manifest.permission.RECEIVE_SMS
-            ))
-        }
-    }
-
-    val permLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
-        it[Manifest.permission.RECEIVE_SMS]?.let { it1 -> isPermitted = it1
-            App.saveValue("receive sms permission count", App.getInt("receive sms permission count") + 1)
-            if (!isPermitted) askPermission()
-        }
-    }
+    val permLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {}
 }

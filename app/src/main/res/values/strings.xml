@@ -22,4 +22,5 @@
     <string name="sms_received">android.provider.Telephony.SMS_RECEIVED</string>
     <string name="start_receiving">Start receiving</string>
     <string name="stop_receiving">Stop receiving</string>
+    <string name="boot_completed">android.intent.action.BOOT_COMPLETED</string>
 </resources>
