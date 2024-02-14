@@ -23,4 +23,9 @@
     <string name="start_receiving">Start receiving</string>
     <string name="stop_receiving">Stop receiving</string>
     <string name="boot_completed">android.intent.action.BOOT_COMPLETED</string>
+    <string name="get">Get</string>
+    <string name="post">Post</string>
+    <string name="put">Put</string>
+    <string name="get_all">Get All</string>
+    <string name="delete">Delete</string>
 </resources>

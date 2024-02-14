@@ -11,8 +11,8 @@ android {
         applicationId "uz.alien.task"
         minSdk 24
         targetSdk 34
-        versionCode 10
-        versionName "5.4 task"
+        versionCode 11
+        versionName "6.2 task"
     }
 
     buildTypes {
@@ -41,4 +41,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat-resources:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    implementation 'com.android.volley:volley:1.2.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 }

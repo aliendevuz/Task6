@@ -2,21 +2,24 @@ package uz.alien.task
 
 import android.app.Application
 import android.content.SharedPreferences
-import android.os.Handler
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.Volley
 
 class App : Application() {
+
+    private val _requestQueue: RequestQueue? = null
+        get() { return field ?: Volley.newRequestQueue(baseContext) }
 
     override fun onCreate() {
         super.onCreate()
         preferences = getSharedPreferences("Settings", MODE_PRIVATE)
-        handler = Handler(mainLooper)
+        requestQueue = _requestQueue!!
     }
 
     companion object {
 
         lateinit var preferences: SharedPreferences
-        lateinit var handler: Handler
-        lateinit var home: MainActivity
 
         fun saveValue(name: String, value: Any) {
             when (value) {
@@ -33,5 +36,12 @@ class App : Application() {
         fun getFloat(name: String, default: Float = 0.0f) = preferences.getFloat(name, default)
         fun getString(name: String, default: String = "") = preferences.getString(name, default)
         fun getBoolean(name: String, default: Boolean = false) = preferences.getBoolean(name, default)
+
+
+        lateinit var requestQueue: RequestQueue
+
+        fun <T> addToRequestQueue(request: Request<T>) {
+            requestQueue.add(request)
+        }
     }
 }
