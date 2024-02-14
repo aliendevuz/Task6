@@ -19,4 +19,7 @@
     <string name="enter_phone_number" tools:ignore="TypographyEllipsis">Enter phone number...</string>
     <string name="make_a_call">Make a call</string>
     <string name="e_x_100">e.x. *100#</string>
+    <string name="phone_state">android.intent.action.PHONE_STATE</string>
+    <string name="stop_receiving">Stop Receiving!</string>
+    <string name="start_receiving">Start Receiving!</string>
 </resources>

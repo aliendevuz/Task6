@@ -3,35 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal|bottom"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/e_x_100"
+        android:text="@string/phone_state"
         android:textStyle="bold"
+        android:gravity="center"
         android:textColor="#808080"
         android:textSize="16sp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/et_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:hint="@string/enter_phone_number"
-        android:inputType="phone"
-        android:autofillHints="" />
-
     <Button
-        android:id="@+id/b_call"
+        android:id="@+id/b_start"
         android:layout_marginTop="12dp"
-        android:layout_marginBottom="108dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/make_a_call" />
+        android:text="@string/start_receiving" />
+
+    <Button
+        android:id="@+id/b_stop"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_receiving" />
 
 </LinearLayout>
