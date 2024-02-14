@@ -1,12 +1,19 @@
 package uz.alien.task
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONException
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import uz.alien.task.databinding.ActivityMainBinding
+import uz.alien.task.network.Dummy
+import uz.alien.task.network.DummyArray
+import uz.alien.task.network.EmployerResp
+import uz.alien.task.network.RetrofitHttp
 import uz.alien.task.network.VolleyHttp
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,23 +26,28 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.bGetAllVolley.setOnClickListener {
-            apiVolleyList()
+//            apiVolleyList()
+            apiRetrofitGetAll()
         }
 
         binding.bGetVolley.setOnClickListener {
-            apiVolleyGet(1)
+//            apiVolleyGet(1)
+            apiRetrofitGet(1)
         }
 
         binding.bPostVolley.setOnClickListener {
-            apiVolleyPost(Employer(0, "Khalilov Ibrohim", "500", "20"))
+//            apiVolleyPost(Employer(0, "Khalilov Ibrohim", "500", "20"))
+            apiRetrofitPost(Employer(0, "Khalilov Ibrohim", "500", "20"))
         }
 
         binding.bPutVolley.setOnClickListener {
-            apiVolleyPut(id, Employer(id, "Khalilov Ibrohim", "1200", "23"))
+//            apiVolleyPut(id, Employer(id, "Khalilov Ibrohim", "1200", "23"))
+            apiRetrofitPut(id, Employer(id, "Khalilov Ibrohim", "1200", "23"))
         }
 
         binding.bDeleteVolley.setOnClickListener {
-            apiVolleyDelete(2)
+//            apiVolleyDelete(2)
+            apiRetrofitDelete(2)
         }
     }
 
@@ -98,6 +110,91 @@ class MainActivity : AppCompatActivity() {
                 binding.tvStatus.text = "Delete: Success!"
             }
             override fun onError(error: String?) {
+                binding.tvStatus.text = "Delete: Failed!"
+            }
+        })
+    }
+
+    fun apiRetrofitGetAll() {
+        RetrofitHttp.employerService.getAll().enqueue(object : Callback<DummyArray> {
+            override fun onResponse(call: Call<DummyArray>, response: Response<DummyArray>) {
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.toString())
+                if (response.body() != null) {
+                    binding.tvStatus.text = "Get: Success!"
+                    if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<DummyArray>, t: Throwable) {
+                binding.tvStatus.text = "Get All: Failed!"
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, t.message.toString())
+            }
+        })
+    }
+
+    fun apiRetrofitGet(id: Int) {
+        RetrofitHttp.employerService.get(id).enqueue(object : Callback<Dummy> {
+            override fun onResponse(call: Call<Dummy>, response: Response<Dummy>) {
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.toString())
+                if (response.body() != null) {
+                    binding.tvStatus.text = "Get: Success!"
+                    if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Dummy>, t: Throwable) {
+                binding.tvStatus.text = "Get: Failed!"
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, t.message.toString())
+            }
+        })
+    }
+
+    fun apiRetrofitPost(employer: Employer) {
+        RetrofitHttp.employerService.post(employer).enqueue(object : Callback<Dummy> {
+            override fun onResponse(call: Call<Dummy>, response: Response<Dummy>) {
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.toString())
+                if (response.body() != null) {
+                    binding.tvStatus.text = "Get: Success!"
+                    if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Dummy>, t: Throwable) {
+                binding.tvStatus.text = "Post: Failed!"
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, t.message.toString())
+            }
+        })
+    }
+
+    fun apiRetrofitPut(id: Int, employer: Employer) {
+        RetrofitHttp.employerService.put(id, employer).enqueue(object : Callback<Dummy> {
+            override fun onResponse(call: Call<Dummy>, response: Response<Dummy>) {
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.toString())
+                if (response.body() != null) {
+                    binding.tvStatus.text = "Get: Success!"
+                    if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Dummy>, t: Throwable) {
+                binding.tvStatus.text = "Put: Failed!"
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, t.message.toString())
+            }
+        })
+    }
+
+    fun apiRetrofitDelete(id: Int) {
+        RetrofitHttp.employerService.delete(id).enqueue(object : Callback<Dummy> {
+            override fun onResponse(call: Call<Dummy>, response: Response<Dummy>) {
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.toString())
+                if (response.body() != null) {
+                    binding.tvStatus.text = "Get: Success!"
+                    if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, response.body().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<Dummy>, t: Throwable) {
+                if (RetrofitHttp.IS_TESTER) Log.d(RetrofitHttp.TAG, t.message.toString())
                 binding.tvStatus.text = "Delete: Failed!"
             }
         })

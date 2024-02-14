@@ -2,6 +2,7 @@ package uz.alien.task
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.os.Handler
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
@@ -13,11 +14,14 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        handler = Handler(mainLooper)
         preferences = getSharedPreferences("Settings", MODE_PRIVATE)
         requestQueue = _requestQueue!!
     }
 
     companion object {
+
+        lateinit var handler: Handler
 
         lateinit var preferences: SharedPreferences
 

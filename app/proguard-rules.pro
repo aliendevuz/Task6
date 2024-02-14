@@ -1,2 +1,7 @@
 -keep class com.android.volley.** { *; }
 -dontwarn com.android.volley.**
+-keep class retrofit2.** { *; }
+-keep class com.squareup.okhttp3.** { *; }
+-keep interface com.squareup.okhttp3.** { *; }
+-dontwarn retrofit2.**
+-dontwarn com.squareup.okhttp3.**
