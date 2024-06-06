@@ -5,3 +5,4 @@
 -keep interface com.squareup.okhttp3.** { *; }
 -dontwarn retrofit2.**
 -dontwarn com.squareup.okhttp3.**
+-keep class uz.alien.task.employer.** { *; }

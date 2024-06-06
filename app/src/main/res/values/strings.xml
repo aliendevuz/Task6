@@ -28,4 +28,7 @@
     <string name="put">Put</string>
     <string name="get_all">Get All</string>
     <string name="delete">Delete</string>
+    <string name="add_post">Add post</string>
+    <string name="body">Body</string>
+    <string name="title">Title</string>
 </resources>
