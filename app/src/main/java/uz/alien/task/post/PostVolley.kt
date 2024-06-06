@@ -6,7 +6,7 @@ import com.android.volley.toolbox.StringRequest
 import org.json.JSONException
 import org.json.JSONObject
 import uz.alien.task.App
-import uz.alien.task.ActivityPost
+import uz.alien.task.activity.ActivityPost
 
 object PostVolley {
 

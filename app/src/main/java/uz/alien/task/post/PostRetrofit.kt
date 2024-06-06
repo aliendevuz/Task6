@@ -1,6 +1,7 @@
 package uz.alien.task.post
 
 import android.util.Log
+import android.view.View
 import com.google.gson.annotations.SerializedName
 import retrofit2.Call
 import retrofit2.Callback
@@ -14,7 +15,7 @@ import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
-import uz.alien.task.ActivityPost
+import uz.alien.task.activity.ActivityPost
 
 object PostRetrofit {
 
@@ -62,93 +63,135 @@ object PostRetrofit {
         .create(PostService::class.java)
 
     fun getAll() {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         service.getAll().enqueue(object : Callback<ArrayList<PostImport>> {
             override fun onResponse(call: Call<ArrayList<PostImport>>, response: Response<ArrayList<PostImport>>) {
                 Log.d(TAG, response.toString())
-                if (response.body() != null) {
+                if (response.code() == 200) {
                     response.body()!!.forEach {
                         Log.d(TAG, it.toString())
                         ActivityPost.instance.adapterPost.add(Post(it.id, it.title.toString(), it.body.toString(), it.userId))
                     }
+                } else {
+                    ActivityPost.showSnackbar("Loading failed!")
                 }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<ArrayList<PostImport>>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
+                ActivityPost.showSnackbar("Loading failed!")
             }
         })
     }
 
     fun get(id: Int) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         service.get(id).enqueue(object : Callback<PostImport> {
             override fun onResponse(call: Call<PostImport>, response: Response<PostImport>) {
                 Log.d(TAG, response.toString())
-                if (response.body() != null) {
+                if (response.code() == 200) {
                     Log.d(TAG, response.body().toString())
+                } else {
+                    ActivityPost.showSnackbar("Loading failed!")
                 }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<PostImport>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
+                ActivityPost.showSnackbar("Loading failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         })
     }
 
     fun create(post: Post) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         service.post(post).enqueue(object : Callback<PostImport> {
             override fun onResponse(call: Call<PostImport>, response: Response<PostImport>) {
                 Log.d(TAG, response.toString())
-                response.body()?.let {
+                if (response.code() == 201) {
+                    response.body()?.let {
+                        val post = Post(
+                            it.id,
+                            it.title.toString(),
+                            it.body.toString(),
+                            it.userId
+                        )
 
-                    val post = Post(
-                        it.id,
-                        it.body.toString(),
-                        it.title.toString(),
-                        it.userId
-                    )
+                        ActivityPost.showSnackbar("Post created!")
 
-                    ActivityPost.instance.adapterPost.add(post)
-                    Log.d(TAG, response.body().toString())
+                        ActivityPost.instance.adapterPost.add(post)
+                        Log.d(TAG, response.body().toString())
+                    }
+                } else {
+                    ActivityPost.showSnackbar("Creating failed!")
                 }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<PostImport>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
+                ActivityPost.showSnackbar("Creating failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         })
     }
 
-    fun update(id: Int, post: Post) {
-        service.put(id, post).enqueue(object : Callback<PostImport> {
+    fun update(position: Int, post: Post) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
+        service.put(post.id, post).enqueue(object : Callback<PostImport> {
             override fun onResponse(call: Call<PostImport>, response: Response<PostImport>) {
                 Log.d(TAG, response.toString())
-                if (response.body() != null) {
-                    Log.d(TAG, response.body().toString())
+                if (response.code() == 200) {
+                    response.body()?.let {
+                        val post = Post(
+                            it.id,
+                            it.title.toString(),
+                            it.body.toString(),
+                            it.userId
+                        )
+
+                        ActivityPost.showSnackbar("Post updated!")
+
+                        ActivityPost.instance.adapterPost.update(post, position)
+                        Log.d(TAG, response.body().toString())
+                    }
                 } else {
-                    Log.d(TAG, response.body().toString())
+                    ActivityPost.showSnackbar("Updating failed!")
                 }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<PostImport>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
+                ActivityPost.showSnackbar("Updating failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         })
     }
 
     fun delete(post: Post, position: Int) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         service.delete(post.id).enqueue(object : Callback<PostImport> {
             override fun onResponse(call: Call<PostImport>, response: Response<PostImport>) {
                 Log.d(TAG, response.toString())
-                if (response.body() != null) {
+                if (response.code() == 200) {
                     Log.d(TAG, response.body().toString())
                     ActivityPost.instance.adapterPost.delete(position)
+                    ActivityPost.showSnackbar("Post deleted!")
                 } else {
-                    Log.d(TAG, response.body().toString())
+                    ActivityPost.showSnackbar("Deleting failed!")
                 }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<PostImport>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
+                ActivityPost.showSnackbar("Deleting failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         })
     }

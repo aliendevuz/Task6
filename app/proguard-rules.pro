@@ -6,3 +6,4 @@
 -dontwarn retrofit2.**
 -dontwarn com.squareup.okhttp3.**
 -keep class uz.alien.task.employer.** { *; }
+-keep class uz.alien.task.post.** { *; }

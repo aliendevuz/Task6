@@ -10,12 +10,16 @@
         android:theme="@style/Theme.Task"
         tools:targetApi="31">
         <activity
-            android:name=".ActivityEmployer"
+            android:name=".activity.ActivityPost"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.ActivityCreatePost"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".activity.ActivityUpdatePost"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 </manifest>

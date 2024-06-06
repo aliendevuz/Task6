@@ -1,11 +1,11 @@
-package uz.alien.task
+package uz.alien.task.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import uz.alien.task.adapter.AdapterEmployee
 import uz.alien.task.databinding.ActivityEmployeerBinding
-import uz.alien.task.employer.AdapterEmployee
 import uz.alien.task.employer.Employer
 import uz.alien.task.employer.EmployerRetrofit
 

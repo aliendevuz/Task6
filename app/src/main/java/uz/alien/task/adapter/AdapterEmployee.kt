@@ -1,4 +1,4 @@
-package uz.alien.task.employer
+package uz.alien.task.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import uz.alien.task.ActivityEmployer
 import uz.alien.task.R
 import uz.alien.task.databinding.ItemEmployeeBinding
+import uz.alien.task.activity.ActivityEmployer
+import uz.alien.task.employer.Employer
+import uz.alien.task.employer.EmployerRetrofit
 
 class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

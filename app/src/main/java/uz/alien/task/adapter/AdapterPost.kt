@@ -1,4 +1,4 @@
-package uz.alien.task.post
+package uz.alien.task.adapter
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -6,19 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-import uz.alien.task.ActivityPost
 import uz.alien.task.R
+import uz.alien.task.activity.ActivityPost
 import uz.alien.task.databinding.ItemPostBinding
+import uz.alien.task.post.Post
+import uz.alien.task.post.PostRetrofit
 
 class AdapterPost : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = AdapterPost::class.java.simpleName
 
+
     fun log(message: String) {
         Log.d(TAG, message)
     }
 
-    private val posts = ArrayList<Post>()
+    val posts = ArrayList<Post>()
 
     class PostViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemPostBinding.bind(view)
@@ -34,9 +37,17 @@ class AdapterPost : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         if (holder is PostViewHolder) {
 
-            holder.binding.root.setOnLongClickListener {
+//            holder.binding.root.setOnLongClickListener {
+//                dialogPost(posts[position], position)
+//                return@setOnLongClickListener false
+//            }
+
+            holder.binding.fore.setOnTouchListener { v, event ->
+                true
+            }
+
+            holder.binding.ivDelete.setOnClickListener {
                 dialogPost(posts[position], position)
-                return@setOnLongClickListener false
             }
 
             holder.binding.tvTitle.text = posts[position].title.uppercase()
@@ -44,11 +55,19 @@ class AdapterPost : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    fun update(post: Post, position: Int) {
+        val p = posts[position]
+        p.id = post.id
+        p.title = post.title
+        p.body = post.body
+        p.userId = post.userId
+        notifyItemChanged(position)
+    }
+
     fun add(post: Post, pos: Int = itemCount) {
         posts.add(pos, post)
         notifyItemInserted(pos)
         notifyItemRangeChanged(pos, itemCount)
-        log("$itemCount is added!")
     }
 
     fun delete(position: Int) {
