@@ -27,9 +27,9 @@ class ActivityUpdatePost : AppCompatActivity() {
         }
 
         binding.etTitle.setText(post!!.title)
-        binding.etTitle.setSelection(binding.etTitle.text.length - 1)
+        binding.etTitle.setSelection(binding.etTitle.text.length)
         binding.etCaption.setText(post!!.body)
-        binding.etCaption.setSelection(binding.etTitle.text.length - 1)
+        binding.etCaption.setSelection(binding.etTitle.text.length)
 
         binding.bUpdatePost.setOnClickListener {
 

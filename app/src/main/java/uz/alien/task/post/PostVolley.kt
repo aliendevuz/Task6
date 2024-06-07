@@ -14,7 +14,6 @@ object PostVolley {
 
     private val TAG = PostVolley::class.java.simpleName
 
-    private const val SERVER = "https://jsonplaceholder.typicode.com/"
     private const val API_GET_ALL = "https://jsonplaceholder.typicode.com/posts"
     private const val API_GET = "https://jsonplaceholder.typicode.com/posts/"
     private const val API_CREATE = "https://jsonplaceholder.typicode.com/posts"
@@ -49,7 +48,7 @@ object PostVolley {
             Response.Listener {
                 Log.d(TAG, it.toString())
                 App.gson.fromJson(it, Post::class.java)
-                ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             },
             Response.ErrorListener {
                 Log.d(TAG, it.message.toString())

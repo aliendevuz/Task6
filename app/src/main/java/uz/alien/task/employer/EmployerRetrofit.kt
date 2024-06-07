@@ -163,8 +163,8 @@ object EmployerRetrofit {
                         }
                     }
                 } else {
-                    ActivityEmployer.instance.showSnackbar("Failed to load!")
-                    ActivityEmployer.instance.showSnackbar("Tap to retry!")
+                    ActivityEmployer.showSnackbar("Failed to load!")
+                    ActivityEmployer.showSnackbar("Tap to retry!")
                 }
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
             }
@@ -172,7 +172,7 @@ object EmployerRetrofit {
             override fun onFailure(call: Call<ResponseEmployerList>, t: Throwable) {
                 Log.d("Retrofit", t.message.toString())
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
-                ActivityEmployer.instance.showSnackbar("Failed to load!")
+                ActivityEmployer.showSnackbar("Failed to load!")
             }
         })
     }
@@ -185,7 +185,7 @@ object EmployerRetrofit {
                 if (response.body() != null) {
                     Log.d("Retrofit", response.body().toString())
                 } else {
-                    ActivityEmployer.instance.showSnackbar("Failed to load!")
+                    ActivityEmployer.showSnackbar("Failed to load!")
                 }
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
             }
@@ -193,7 +193,7 @@ object EmployerRetrofit {
             override fun onFailure(call: Call<ResponseEmployer>, t: Throwable) {
                 Log.d("Retrofit", t.message.toString())
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
-                ActivityEmployer.instance.showSnackbar("Failed to load!")
+                ActivityEmployer.showSnackbar("Failed to load!")
             }
         })
     }
@@ -207,7 +207,7 @@ object EmployerRetrofit {
                     Log.d("Retrofit", response.body().toString())
                     ActivityEmployer.instance.adapterEmployee.add(employer)
                 } else {
-                    ActivityEmployer.instance.showSnackbar("Failed to create!")
+                    ActivityEmployer.showSnackbar("Failed to create!")
                 }
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
             }
@@ -215,7 +215,7 @@ object EmployerRetrofit {
             override fun onFailure(call: Call<ResponseModify>, t: Throwable) {
                 Log.d("Retrofit", t.message.toString())
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
-                ActivityEmployer.instance.showSnackbar("Failed to create!")
+                ActivityEmployer.showSnackbar("Failed to create!")
             }
         })
     }
@@ -228,7 +228,7 @@ object EmployerRetrofit {
                 if (response.body() != null) {
                     Log.d("Retrofit", response.body().toString())
                 } else {
-                    ActivityEmployer.instance.showSnackbar("Failed to update!")
+                    ActivityEmployer.showSnackbar("Failed to update!")
                 }
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
             }
@@ -236,7 +236,7 @@ object EmployerRetrofit {
             override fun onFailure(call: Call<ResponseModify>, t: Throwable) {
                 Log.d("Retrofit", t.message.toString())
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
-                ActivityEmployer.instance.showSnackbar("Failed to update!")
+                ActivityEmployer.showSnackbar("Failed to update!")
             }
         })
     }
@@ -250,7 +250,7 @@ object EmployerRetrofit {
                     ActivityEmployer.instance.adapterEmployee.delete(position)
                     Log.d("Retrofit", response.body().toString())
                 } else {
-                    ActivityEmployer.instance.showSnackbar("Failed to delete!")
+                    ActivityEmployer.showSnackbar("Failed to delete!")
                 }
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
             }
@@ -258,7 +258,7 @@ object EmployerRetrofit {
             override fun onFailure(call: Call<ResponseId>, t: Throwable) {
                 Log.d("Retrofit", t.message.toString())
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
-                ActivityEmployer.instance.showSnackbar("Failed to delete!")
+                ActivityEmployer.showSnackbar("Failed to delete!")
             }
         })
     }

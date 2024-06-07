@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_marginHorizontal="20dp"
+        android:hint="Enter Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/et_age"
+            android:hint="Enter Age"
+            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_salary"
+            android:hint="Enter Salary"
+            android:layout_marginStart="12dp"
+            android:layout_weight="2"
+            android:inputType="numberDecimal"
+            android:layout_marginTop="20dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/b_update_employer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Employer"
+        android:layout_marginTop="20dp" />
+
+</LinearLayout>

@@ -11,6 +11,7 @@ import uz.alien.task.databinding.ItemEmployeeBinding
 import uz.alien.task.activity.ActivityEmployer
 import uz.alien.task.employer.Employer
 import uz.alien.task.employer.EmployerRetrofit
+import uz.alien.task.employer.EmployerVolley
 
 class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -20,13 +21,13 @@ class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         Log.d(TAG, message)
     }
 
-    private val employes = ArrayList<Employer>()
+    val employers = ArrayList<Employer>()
 
     class EmployeeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val binding = ItemEmployeeBinding.bind(view)
     }
 
-    override fun getItemCount() = employes.size
+    override fun getItemCount() = employers.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return EmployeeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_employee, parent, false))
@@ -36,26 +37,30 @@ class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         if (holder is EmployeeViewHolder) {
 
-            holder.binding.root.setOnLongClickListener {
-                dialogEmployee(employes[position], position)
-                return@setOnLongClickListener false
-            }
-
-            holder.binding.tvName.text = employes[position].name
-            holder.binding.tvAge.text = employes[position].age
-            holder.binding.tvSalary.text = employes[position].salary + '$'
+            holder.binding.tvName.text = employers[position].name
+            holder.binding.tvAge.text = employers[position].age
+            holder.binding.tvSalary.text = employers[position].salary + '$'
         }
     }
 
+    fun update(employer: Employer, position: Int) {
+        val e = employers[position]
+        e.id = employer.id
+        e.name = employer.name
+        e.salary = employer.salary
+        e.age = employer.age
+        notifyItemChanged(position)
+    }
+
     fun add(employer: Employer, pos: Int = itemCount) {
-        employes.add(pos, employer)
+        employers.add(pos, employer)
         notifyItemInserted(pos)
         notifyItemRangeChanged(pos, itemCount)
         log("$itemCount is added!")
     }
 
     fun delete(position: Int) {
-        employes.removeAt(position)
+        employers.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, itemCount)
     }
@@ -65,7 +70,7 @@ class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             .setTitle("Delete Post")
             .setMessage("Are you sure you want to delete this post?")
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                EmployerRetrofit.delete(employer, position)
+                EmployerVolley.delete(employer, position)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .setIcon(android.R.drawable.ic_dialog_alert)
@@ -73,6 +78,6 @@ class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun clear() {
-        employes.clear()
+        employers.clear()
     }
 }

@@ -37,19 +37,6 @@ class AdapterPost : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         if (holder is PostViewHolder) {
 
-//            holder.binding.root.setOnLongClickListener {
-//                dialogPost(posts[position], position)
-//                return@setOnLongClickListener false
-//            }
-
-            holder.binding.fore.setOnTouchListener { v, event ->
-                true
-            }
-
-            holder.binding.ivDelete.setOnClickListener {
-                dialogPost(posts[position], position)
-            }
-
             holder.binding.tvTitle.text = posts[position].title.uppercase()
             holder.binding.tvBody.text = posts[position].body
         }
