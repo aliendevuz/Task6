@@ -206,6 +206,7 @@ object EmployerRetrofit {
                 if (response.body() != null) {
                     Log.d("Retrofit", response.body().toString())
                     ActivityEmployer.instance.adapterEmployee.add(employer)
+                    ActivityEmployer.showSnackbar("Creating success!")
                 } else {
                     ActivityEmployer.showSnackbar("Failed to create!")
                 }
@@ -220,13 +221,15 @@ object EmployerRetrofit {
         })
     }
 
-    fun update(id: Int, employer: Employer) {
+    fun update(position: Int, employer: Employer) {
         ActivityEmployer.instance.binding.pbLoading.visibility = View.VISIBLE
-        service.put(id, employer).enqueue(object : Callback<ResponseModify> {
+        service.put(employer.id, employer).enqueue(object : Callback<ResponseModify> {
             override fun onResponse(call: Call<ResponseModify>, response: Response<ResponseModify>) {
                 Log.d("Retrofit", response.toString())
                 if (response.body() != null) {
                     Log.d("Retrofit", response.body().toString())
+                    ActivityEmployer.instance.adapterEmployee.update(employer, position)
+                    ActivityEmployer.showSnackbar("Updating success!")
                 } else {
                     ActivityEmployer.showSnackbar("Failed to update!")
                 }
@@ -251,6 +254,7 @@ object EmployerRetrofit {
                     Log.d("Retrofit", response.body().toString())
                 } else {
                     ActivityEmployer.showSnackbar("Failed to delete!")
+                    ActivityEmployer.instance.adapterEmployee.notifyItemChanged(position)
                 }
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
             }
@@ -259,6 +263,7 @@ object EmployerRetrofit {
                 Log.d("Retrofit", t.message.toString())
                 ActivityEmployer.instance.binding.pbLoading.visibility = View.GONE
                 ActivityEmployer.showSnackbar("Failed to delete!")
+                ActivityEmployer.instance.adapterEmployee.notifyItemChanged(position)
             }
         })
     }

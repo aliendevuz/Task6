@@ -49,7 +49,7 @@ class ActivityEmployer : AppCompatActivity() {
 
         binding.root.setOnClickListener {
             if (adapterEmployee.employers.isEmpty())
-                EmployerVolley.getAll()
+                EmployerRetrofit.getAll()
         }
 
         binding.bAddEmployee.setOnClickListener {
@@ -68,7 +68,7 @@ class ActivityEmployer : AppCompatActivity() {
                 val position = viewHolder.adapterPosition
                 val employer = adapterEmployee.employers[position]
                 if (direction == ItemTouchHelper.LEFT) {
-                    EmployerVolley.delete(employer, position)
+                    EmployerRetrofit.delete(employer, position)
                 } else {
                     val intent = Intent(this@ActivityEmployer, ActivityUpdateEmployer::class.java)
                     intent.putExtra("position", position)
@@ -86,7 +86,7 @@ class ActivityEmployer : AppCompatActivity() {
 
         mIth.attachToRecyclerView(binding.rvEmployes)
 
-        EmployerVolley.getAll()
+        EmployerRetrofit.getAll()
     }
 
     val createLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -98,7 +98,7 @@ class ActivityEmployer : AppCompatActivity() {
                     it.getSerializableExtra("employer") as Employer
                 }
                 employer?.let {
-                    EmployerVolley.create(it)
+                    EmployerRetrofit.create(it)
                 }
             }
         }
@@ -114,7 +114,7 @@ class ActivityEmployer : AppCompatActivity() {
                     it.getSerializableExtra("employer") as Employer
                 }
                 employer?.let {
-                    EmployerVolley.update(position, it)
+                    EmployerRetrofit.update(position, it)
                 }
             }
         }

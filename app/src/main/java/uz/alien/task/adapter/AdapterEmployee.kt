@@ -70,7 +70,7 @@ class AdapterEmployee : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             .setTitle("Delete Post")
             .setMessage("Are you sure you want to delete this post?")
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                EmployerVolley.delete(employer, position)
+                EmployerRetrofit.delete(employer, position)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .setIcon(android.R.drawable.ic_dialog_alert)
