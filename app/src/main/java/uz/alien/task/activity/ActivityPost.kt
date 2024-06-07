@@ -17,8 +17,6 @@ import uz.alien.task.adapter.AdapterPost
 import uz.alien.task.databinding.ActivityPostBinding
 import uz.alien.task.post.Post
 import uz.alien.task.post.PostRetrofit
-import uz.alien.task.post.PostVolley
-
 
 class ActivityPost : AppCompatActivity() {
 
@@ -53,7 +51,7 @@ class ActivityPost : AppCompatActivity() {
 
         binding.root.setOnClickListener {
             if (adapterPost.posts.isEmpty())
-                PostVolley.getAll()
+                PostRetrofit.getAll()
         }
 
         val mIth = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
@@ -68,7 +66,7 @@ class ActivityPost : AppCompatActivity() {
                 val position = viewHolder.adapterPosition
                 val post = adapterPost.posts[position]
                 if (direction == ItemTouchHelper.LEFT) {
-                    PostVolley.delete(post, position)
+                    PostRetrofit.delete(post, position)
                 } else {
                     val intent = Intent(this@ActivityPost, ActivityUpdatePost::class.java)
                     intent.putExtra("position", position)
@@ -86,7 +84,7 @@ class ActivityPost : AppCompatActivity() {
 
         mIth.attachToRecyclerView(binding.rvPosts)
 
-        PostVolley.getAll()
+        PostRetrofit.getAll()
     }
 
     val createLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -98,7 +96,7 @@ class ActivityPost : AppCompatActivity() {
                     it.getSerializableExtra("post") as Post
                 }
                 post?.let {
-                    PostVolley.create(it)
+                    PostRetrofit.create(it)
                 }
             }
         }
@@ -114,7 +112,7 @@ class ActivityPost : AppCompatActivity() {
                     it.getSerializableExtra("post") as Post
                 }
                 post?.let {
-                    PostVolley.update(position, it)
+                    PostRetrofit.update(position, it)
                 }
             }
         }

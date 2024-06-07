@@ -11,7 +11,6 @@ import uz.alien.task.activity.ActivityPost
 import uz.alien.task.databinding.ItemPostBinding
 import uz.alien.task.post.Post
 import uz.alien.task.post.PostRetrofit
-import uz.alien.task.post.PostVolley
 
 class AdapterPost : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -82,7 +81,7 @@ class AdapterPost : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             .setTitle("Delete Post")
             .setMessage("Are you sure you want to delete this post?")
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                PostVolley.delete(post, position)
+                PostRetrofit.delete(post, position)
             }
             .setNegativeButton(android.R.string.cancel, null)
             .setIcon(android.R.drawable.ic_dialog_alert)

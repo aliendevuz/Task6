@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 15,
-      "versionName": "7.2 task",
+      "versionCode": 16,
+      "versionName": "7.3 task",
       "outputFile": "app-release.apk"
     }
   ],
