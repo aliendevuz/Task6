@@ -184,12 +184,14 @@ object PostRetrofit {
                     ActivityPost.showSnackbar("Post deleted!")
                 } else {
                     ActivityPost.showSnackbar("Deleting failed!")
+                    ActivityPost.instance.adapterPost.update(post, position)
                 }
                 ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
 
             override fun onFailure(call: Call<PostImport>, t: Throwable) {
                 Log.d(TAG, t.message.toString())
+                ActivityPost.instance.adapterPost.update(post, position)
                 ActivityPost.showSnackbar("Deleting failed!")
                 ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }

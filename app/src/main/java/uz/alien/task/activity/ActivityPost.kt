@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -15,10 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.snackbar.Snackbar
 import uz.alien.task.adapter.AdapterPost
-import uz.alien.task.adapter.RecyclerItemTouchHelper
 import uz.alien.task.databinding.ActivityPostBinding
 import uz.alien.task.post.Post
 import uz.alien.task.post.PostRetrofit
+import uz.alien.task.post.PostVolley
 
 
 class ActivityPost : AppCompatActivity() {
@@ -52,6 +51,11 @@ class ActivityPost : AppCompatActivity() {
             createLauncher.launch(Intent(this, ActivityCreatePost::class.java))
         }
 
+        binding.root.setOnClickListener {
+            if (adapterPost.posts.isEmpty())
+                PostVolley.getAll()
+        }
+
         val mIth = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder, target: ViewHolder): Boolean {
                 val fromPos = viewHolder.adapterPosition
@@ -64,7 +68,7 @@ class ActivityPost : AppCompatActivity() {
                 val position = viewHolder.adapterPosition
                 val post = adapterPost.posts[position]
                 if (direction == ItemTouchHelper.LEFT) {
-                    PostRetrofit.delete(post, position)
+                    PostVolley.delete(post, position)
                 } else {
                     val intent = Intent(this@ActivityPost, ActivityUpdatePost::class.java)
                     intent.putExtra("position", position)
@@ -82,15 +86,7 @@ class ActivityPost : AppCompatActivity() {
 
         mIth.attachToRecyclerView(binding.rvPosts)
 
-//        val itemTouchHelper = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, object : RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
-//            override fun onSwiped(viewHolder: ViewHolder, direction: Int, position: Int) {
-//                Log.d("@@@@", "$position")
-//            }
-//        })
-//
-//        ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.rvPosts)
-
-        PostRetrofit.getAll()
+        PostVolley.getAll()
     }
 
     val createLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -102,7 +98,7 @@ class ActivityPost : AppCompatActivity() {
                     it.getSerializableExtra("post") as Post
                 }
                 post?.let {
-                    PostRetrofit.create(it)
+                    PostVolley.create(it)
                 }
             }
         }
@@ -118,7 +114,7 @@ class ActivityPost : AppCompatActivity() {
                     it.getSerializableExtra("post") as Post
                 }
                 post?.let {
-                    PostRetrofit.update(position, it)
+                    PostVolley.update(position, it)
                 }
             }
         }

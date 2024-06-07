@@ -1,6 +1,8 @@
 package uz.alien.task.post
 
 import android.util.Log
+import android.view.View
+import com.android.volley.NetworkResponse
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import org.json.JSONException
@@ -13,13 +15,14 @@ object PostVolley {
     private val TAG = PostVolley::class.java.simpleName
 
     private const val SERVER = "https://jsonplaceholder.typicode.com/"
-    private const val API_GET_ALL = SERVER + "posts"
-    private const val API_GET = SERVER + "posts/"
-    private const val API_CREATE = SERVER + "posts"
-    private const val API_UPDATE = SERVER + "posts/"
-    private const val API_DELETE = SERVER + "posts/"
+    private const val API_GET_ALL = "https://jsonplaceholder.typicode.com/posts"
+    private const val API_GET = "https://jsonplaceholder.typicode.com/posts/"
+    private const val API_CREATE = "https://jsonplaceholder.typicode.com/posts"
+    private const val API_UPDATE = "https://jsonplaceholder.typicode.com/posts/"
+    private const val API_DELETE = "https://jsonplaceholder.typicode.com/posts/"
 
     fun getAll() {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         App.addToRequestQueue(object : StringRequest(
             Method.GET, API_GET_ALL,
             Response.Listener {
@@ -27,42 +30,55 @@ object PostVolley {
                 App.gson.fromJson(it, Array<Post>::class.java).forEach { it1 ->
                     ActivityPost.instance.adapterPost.add(it1)
                 }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             },
             Response.ErrorListener {
                 Log.d(TAG, it.message.toString())
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
+                ActivityPost.showSnackbar("Loading failed!")
             }
-        ) { override fun getParams() = hashMapOf<String, String>() })
+        ) {
+            override fun getParams() = hashMapOf<String, String>()
+        })
     }
 
     fun get(id: Int) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         App.addToRequestQueue(object : StringRequest(
             Method.GET, "$API_GET$id",
             Response.Listener {
                 Log.d(TAG, it.toString())
+                App.gson.fromJson(it, Post::class.java)
+                ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
             },
             Response.ErrorListener {
                 Log.d(TAG, it.message.toString())
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
+                ActivityPost.showSnackbar("Loading failed!")
             }
-        ) { override fun getParams() = hashMapOf<String, String>() })
+        ) {
+            override fun getParams() = hashMapOf<String, String>()
+        })
     }
 
     fun create(post: Post) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         App.addToRequestQueue(object : StringRequest(
             Method.POST, API_CREATE,
             Response.Listener {
-                it?.let {
-                    try {
-                        val id = JSONObject(it).getInt("id")
-                        Log.d(TAG, "Current ID = $id")
-                        ActivityPost.instance.id = id
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                    }
-                }
                 Log.d(TAG, it.toString())
+                it?.let {
+                    val post = App.gson.fromJson(it, Post::class.java)
+                    ActivityPost.instance.id = post.id
+                    ActivityPost.showSnackbar("Post created!")
+                    ActivityPost.instance.adapterPost.add(post)
+                }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             },
             Response.ErrorListener {
                 Log.d(TAG, it.message.toString())
+                ActivityPost.showSnackbar("Creating failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         ) {
             override fun getHeaders() = hashMapOf("Content-type" to "application/json; charset=UTF-8")
@@ -70,14 +86,23 @@ object PostVolley {
         })
     }
 
-    fun update(id: Int, post: Post) {
+    fun update(position: Int, post: Post) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         App.addToRequestQueue(object : StringRequest(
-            Method.PUT, "$API_UPDATE$id",
+            Method.PUT, "$API_UPDATE${post.id}",
             Response.Listener {
                 Log.d(TAG, it.toString())
+                it?.let {
+                    val post = App.gson.fromJson(it, Post::class.java)
+                    ActivityPost.instance.adapterPost.update(post, position)
+                    ActivityPost.showSnackbar("Post updated!")
+                }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             },
             Response.ErrorListener {
                 Log.d(TAG, it.message.toString())
+                ActivityPost.showSnackbar("Updating failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         ) {
             override fun getHeaders() = hashMapOf("Content-type" to "application/json; charset=UTF-8")
@@ -86,14 +111,22 @@ object PostVolley {
     }
 
     fun delete(post: Post, position: Int) {
+        ActivityPost.instance.binding.pbLoading.visibility = View.VISIBLE
         App.addToRequestQueue(object : StringRequest(
             Method.DELETE, "$API_DELETE$post",
             Response.Listener {
                 Log.d(TAG, it.toString())
-                ActivityPost.instance.adapterPost.delete(position)
+                if (it == "{}") {
+                    ActivityPost.instance.adapterPost.delete(position)
+                    ActivityPost.showSnackbar("Post deleted!")
+                }
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             },
             Response.ErrorListener {
                 Log.d(TAG, it.message.toString())
+                ActivityPost.instance.adapterPost.update(post, position)
+                ActivityPost.showSnackbar("Deleting failed!")
+                ActivityPost.instance.binding.pbLoading.visibility = View.GONE
             }
         ) {})
     }
